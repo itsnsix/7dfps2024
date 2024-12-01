@@ -3,6 +3,7 @@ extends Node3D  # Can be changed to Node2D if needed
 @export var spawn_interval: float = 5.0  # Time between spawns in seconds
 @export var max_enemies: int = 10  # Maximum number of enemies that can exist simultaneously
 @export var spawn_area_size: Vector3 = Vector3(5, 0, 5)  # Area where enemies can spawn
+@export var spawning_enabled : bool = true
 
 # List of enemy scenes to spawn from
 @export var enemy_scenes: Array[PackedScene] = []
@@ -26,6 +27,8 @@ func _ready():
 		add_child(mesh_instance)
 
 func _process(delta):
+	if !spawning_enabled:
+		return
 	# Increment spawn timer
 	spawn_timer += delta
 	
