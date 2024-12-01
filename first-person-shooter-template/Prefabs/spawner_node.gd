@@ -1,30 +1,25 @@
+@tool
 extends Node3D  # Can be changed to Node2D if needed
 
-@export var spawn_interval: float = 5.0  # Time between spawns in seconds
-@export var max_enemies: int = 10  # Maximum number of enemies that can exist simultaneously
-@export var spawn_area_size: Vector3 = Vector3(5, 0, 5)  # Area where enemies can spawn
+@export var spawn_interval : float = 5.0  # Time between spawns in seconds
+@export var max_enemies : int = 10  # Maximum number of enemies that can exist simultaneously
+@export var spawn_radius : float : set = _set_spawn_radius   # Area where enemies can spawn
 @export var spawning_enabled : bool = true
 
 # List of enemy scenes to spawn from
 @export var enemy_scenes: Array[PackedScene] = []
 
 # Internal tracking
-var spawn_timer: float = 0.0
-var current_enemies: Array = []
+var spawn_timer : float = 0.0
+var current_enemies : Array = []
+
+func _set_spawn_radius(_args : float):
+	spawn_radius = _args
 
 func _ready():
 	# Validate spawn list
 	if enemy_scenes.is_empty():
 		push_warning("No enemy scenes configured for spawner!")
-	if Engine.is_editor_hint():
-		var debug_mesh = BoxMesh.new()
-		debug_mesh.size = spawn_area_size
-		
-		var mesh_instance = MeshInstance3D.new()
-		mesh_instance.mesh = debug_mesh
-		mesh_instance.transparency = 0.7
-		mesh_instance.name = "SpawnAreaDebug"
-		add_child(mesh_instance)
 
 func _process(delta):
 	if !spawning_enabled:
@@ -39,6 +34,9 @@ func _process(delta):
 	
 	# Optional: Clean up dead/null enemies
 	current_enemies = current_enemies.filter(func(enemy): return is_instance_valid(enemy))
+	if Engine.is_editor_hint():
+		var box_center = global_position
+		DebugDraw3D.draw_cylinder_ab(box_center-Vector3(0,1,0), box_center+Vector3(0,1,0),spawn_radius, Color(1,0,1,0.3))
 
 func spawn_enemy():
 	# Ensure we have scenes to spawn from
@@ -50,9 +48,9 @@ func spawn_enemy():
 	
 	# Randomize spawn position within defined area
 	var spawn_position = Vector3(
-		global_position.x + randf_range(-spawn_area_size.x/2, spawn_area_size.x/2),
+		global_position.x + randf_range(-spawn_radius/2, spawn_radius/2),
 		global_position.y,  # Keeps Y consistent with spawner
-		global_position.z + randf_range(-spawn_area_size.z/2, spawn_area_size.z/2)
+		global_position.z + randf_range(-spawn_radius/2, spawn_radius/2)
 	)
 	
 	# Set enemy position
@@ -61,6 +59,7 @@ func spawn_enemy():
 	# Add to scene and tracking array
 	get_parent().add_child(enemy_instance)
 	current_enemies.append(enemy_instance)
+
 
 # Optional method to manually clear all spawned enemies
 func clear_enemies():
