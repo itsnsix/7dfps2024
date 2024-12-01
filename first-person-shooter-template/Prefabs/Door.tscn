@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcqy5wy3lrleo"]
+[gd_scene load_steps=5 format=3 uid="uid://bcqy5wy3lrleo"]
+
+[ext_resource type="Script" path="res://Prefabs/door.gd" id="1_sft8u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_57bug"]
 size = Vector3(7.7605, 6.20381, 4.39441)
@@ -9,9 +11,10 @@ size = Vector3(3, 3, 0.25)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sw2g2"]
 albedo_color = Color(0, 1, 1, 1)
 
-[node name="Door" type="Area3D"]
+[node name="Door" type="Area3D" groups=["Doors"]]
 collision_layer = 64
 collision_mask = 2
+script = ExtResource("1_sft8u")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1521, 2.4981, -1.72467)

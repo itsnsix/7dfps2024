@@ -22,6 +22,7 @@ import/fbx/enabled=false
 [global_group]
 
 World=""
+Doors="All Doors in all scenes"
 
 [input]
 
