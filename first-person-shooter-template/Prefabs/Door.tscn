@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcqy5wy3lrleo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_57bug"]
+size = Vector3(7.7605, 6.20381, 4.39441)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mioo7"]
+size = Vector3(3, 3, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sw2g2"]
+albedo_color = Color(0, 1, 1, 1)
+
+[node name="Door" type="Area3D"]
+collision_layer = 64
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1521, 2.4981, -1.72467)
+shape = SubResource("BoxShape3D_57bug")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.34209, 0, 0, 0, 2.03935, 0, 0, 0, 1, 0, 2.50196, 0)
+mesh = SubResource("BoxMesh_mioo7")
+surface_material_override/0 = SubResource("StandardMaterial3D_sw2g2")

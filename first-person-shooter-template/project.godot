@@ -142,6 +142,7 @@ right={
 3d_physics/layer_4="Weapons"
 3d_physics/layer_5="Rigid Body Projectiles"
 3d_physics/layer_6="Enemys"
+3d_physics/layer_7="Doors"
 
 [rendering]
 
