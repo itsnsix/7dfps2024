@@ -3,7 +3,7 @@ extends Node3D  # Can be changed to Node2D if needed
 
 @export var spawn_interval : float = 5.0  # Time between spawns in seconds
 @export var max_enemies : int = 10  # Maximum number of enemies that can exist simultaneously
-@export var spawn_radius : float : set = _set_spawn_radius   # Area where enemies can spawn
+@export var spawn_radius := float(5) : set = _set_spawn_radius   # Area where enemies can spawn
 @export var spawning_enabled : bool = true
 
 # List of enemy scenes to spawn from
@@ -36,7 +36,7 @@ func _process(delta):
 	current_enemies = current_enemies.filter(func(enemy): return is_instance_valid(enemy))
 	if Engine.is_editor_hint():
 		var box_center = global_position
-		DebugDraw3D.draw_cylinder_ab(box_center-Vector3(0,1,0), box_center+Vector3(0,1,0),spawn_radius, Color(1,0,1,0.3))
+		DebugDraw3D.draw_cylinder_ab(box_center-Vector3(0,0.2,0), box_center+Vector3(0,0.2,0),spawn_radius, Color(1,1,1,0.3))
 
 func spawn_enemy():
 	# Ensure we have scenes to spawn from
