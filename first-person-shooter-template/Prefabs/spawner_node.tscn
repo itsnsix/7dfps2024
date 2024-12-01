@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://lqj2gt1srplr"]
+
+[ext_resource type="Script" path="res://Example World/Objects/World/spawner.gd" id="1_y656m"]
+
+[node name="Spawner Node" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.52693, 0)
+script = ExtResource("1_y656m")
