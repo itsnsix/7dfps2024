@@ -24,3 +24,9 @@ shape = SubResource("BoxShape3D_57bug")
 transform = Transform3D(2.34209, 0, 0, 0, 2.03935, 0, 0, 0, 1, 0, 2.50196, 0)
 mesh = SubResource("BoxMesh_mioo7")
 surface_material_override/0 = SubResource("StandardMaterial3D_sw2g2")
+
+[node name="SpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

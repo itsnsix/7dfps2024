@@ -20,7 +20,7 @@ var crouch_blocked: bool = false
 enum {GROUND_CROUCH = -1, STANDING = 0, AIR_CROUCH = 1}
 
 @export_category("Lean Parametres")
-@export var enable_lean: bool = true
+@export var enable_lean: bool = false
 @export_range(0.0,1.0) var lean_speed: float = .2
 @export var right_lean_collision: ShapeCast3D
 @export var left_lean_collision: ShapeCast3D
@@ -61,12 +61,29 @@ var base_speed: float
 var _speed: float 
 var jump_available: bool = true
 var jump_buffer: bool = false
+var near_door: bool = false
+
+# All of the rooms that we can load
+var all_scenes: Array[String] = [
+	"res://Levels/BridgeRoom/BridgeRoom.tscn",
+	"res://Levels/HallwayRoom/HallwayRoom.tscn",
+	"res://Levels/HRoom/HRoom.tscn",
+	"res://Levels/SnakeyRoom/SnakeyRoom.tscn",
+	"res://Levels/SquareRoom/SquareRoom.tscn"
+]
 
 func _ready() -> void:
 	update_camera_rotation()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	calculate_movement_parameters()
 	
+	# Get all the doors in the scene
+	var doors = get_tree().get_nodes_in_group("Doors")
+	# For each door, listen for the entered and exit signals
+	for door in doors:
+		door.connect('entered_door', self._on_entered_door)
+		door.connect('exited_door', self._on_exited_door)
+
 func update_camera_rotation() -> void:
 	var current_rotation = get_rotation()
 	camera_rotation.x = current_rotation.y
@@ -197,6 +214,16 @@ func sprint_replenish(delta) -> void:
 func _process(_delta: float) -> void:
 	if subviewport_camera:
 		subviewport_camera.global_transform = main_camera.global_transform
+	if near_door and Input.is_action_just_pressed("interact"):
+		# Randomly choose a room to load
+		var rand_int = randi() % all_scenes.size()
+
+		# Don't load the same room because that's boring
+		while all_scenes[rand_int] == get_parent().scene_file_path:
+			rand_int = randi() % all_scenes.size()
+
+		# Load the next room
+		get_tree().change_scene_to_file(all_scenes[rand_int])
 		
 func _physics_process(_delta: float) -> void:
 	sprint_replenish(_delta)
@@ -267,3 +294,11 @@ func _on_coyote_timer_timeout() -> void:
 
 func on_jump_buffer_timeout()->void:
 	jump_buffer = false
+
+# Set near_door = true when Door emits the "entered_door" signal
+func _on_entered_door(body: Node3D) -> void:
+	near_door = true
+
+# Set near_door = true when Door emits the "exited_door" signalQ
+func _on_exited_door(body: Node3D) -> void:
+	near_door = false
