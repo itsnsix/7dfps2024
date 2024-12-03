@@ -63,6 +63,9 @@ var jump_available: bool = true
 var jump_buffer: bool = false
 var near_door: bool = false
 
+# Lets the HUD know to update the health
+signal update_health()
+
 # All of the rooms that we can load
 var all_scenes: Array[String] = [
 	"res://Levels/BridgeRoom/BridgeRoom.tscn",
@@ -83,6 +86,8 @@ func _ready() -> void:
 	for door in doors:
 		door.connect('entered_door', self._on_entered_door)
 		door.connect('exited_door', self._on_exited_door)
+
+	Global.connect('player_injured', _on_player_injured)
 
 func update_camera_rotation() -> void:
 	var current_rotation = get_rotation()
@@ -302,3 +307,10 @@ func _on_entered_door(body: Node3D) -> void:
 # Set near_door = true when Door emits the "exited_door" signalQ
 func _on_exited_door(body: Node3D) -> void:
 	near_door = false
+
+func _on_player_injured(damage: int):
+	Global.player_health -= damage
+	if Global.player_health <= 0:
+		print('Ha you died bitch')
+		Global.player_health = 100
+	emit_signal('update_health')

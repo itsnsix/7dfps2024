@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddhlrroldxya2"]
+
+[ext_resource type="Script" path="res://Prefabs/Enemies/Hazards/Spikes/spikes.gd" id="1_7wky6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_acwst"]
+size = Vector3(0.719727, 1, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_dcsfm"]
+
+[node name="Spikes" type="Area3D"]
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("1_7wky6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00439453, 0, 0)
+shape = SubResource("BoxShape3D_acwst")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PrismMesh_dcsfm")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

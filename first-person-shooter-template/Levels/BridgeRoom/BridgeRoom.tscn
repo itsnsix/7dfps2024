@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://d08qg1jpfkdr7"]
+[gd_scene load_steps=7 format=3 uid="uid://d08qg1jpfkdr7"]
 
 [ext_resource type="MeshLibrary" uid="uid://cropsc1wf40b3" path="res://Prefabs/BasicBlocks/level1_blocks.tres" id="1_hcxkr"]
 [ext_resource type="Script" path="res://Levels/set_spawn.gd" id="1_ujh34"]
 [ext_resource type="PackedScene" uid="uid://bcqy5wy3lrleo" path="res://Prefabs/Door.tscn" id="2_d7r7t"]
 [ext_resource type="Environment" uid="uid://bqp54syxqnqww" path="res://Player_Controller/world_environment.tres" id="3_177p3"]
+[ext_resource type="PackedScene" uid="uid://b71l3i4n0fjne" path="res://Prefabs/UI/HUD/HUD.tscn" id="5_m0vsa"]
+[ext_resource type="PackedScene" uid="uid://ddhlrroldxya2" path="res://Prefabs/Enemies/Hazards/Spikes/Spikes.tscn" id="6_3rcgw"]
 
 [node name="BridgeRoom" type="Node3D"]
 script = ExtResource("1_ujh34")
@@ -38,3 +40,8 @@ transform = Transform3D(0.922538, 0.232798, -0.30778, 0, 0.797552, 0.60325, 0.38
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_177p3")
+
+[node name="Hud" parent="." instance=ExtResource("5_m0vsa")]
+
+[node name="Spikes" parent="Hud" instance=ExtResource("6_3rcgw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.66595, 0.687855, -19.5926)

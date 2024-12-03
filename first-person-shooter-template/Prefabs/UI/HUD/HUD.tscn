@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://b71l3i4n0fjne"]
+
+[ext_resource type="Script" path="res://Prefabs/UI/HUD/hud.gd" id="1_a8ehf"]
+
+[node name="Hud" type="CanvasLayer"]
+script = ExtResource("1_a8ehf")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 19.0
+offset_top = 572.0
+offset_right = 253.0
+offset_bottom = 633.0
+
+[node name="HealthText" type="RichTextLabel" parent="."]
+offset_left = 24.0
+offset_top = 581.0
+offset_right = 174.0
+offset_bottom = 628.0
+theme_override_font_sizes/normal_font_size = 30
+text = "HEALTH: "
+
+[node name="HealthValue" type="RichTextLabel" parent="."]
+offset_left = 154.0
+offset_top = 569.0
+offset_right = 260.0
+offset_bottom = 635.0
+theme_override_font_sizes/normal_font_size = 45
+text = "###"
