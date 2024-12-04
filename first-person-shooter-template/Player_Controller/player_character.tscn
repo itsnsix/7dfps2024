@@ -2097,6 +2097,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="debug_hud" type="VBoxContainer" parent="CanvasLayer"]
+visible = false
 anchors_preset = 9
 anchor_bottom = 1.0
 grow_vertical = 2

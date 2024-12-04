@@ -12,4 +12,4 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	Global.player_values.emit_signal('player_injured', DAMAGE)
+	Global.player_values._on_player_injured(DAMAGE)

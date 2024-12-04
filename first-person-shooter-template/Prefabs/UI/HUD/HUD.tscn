@@ -5,23 +5,68 @@
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1_a8ehf")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="HealthArea" type="Panel" parent="."]
 offset_left = 19.0
 offset_top = 572.0
 offset_right = 253.0
 offset_bottom = 633.0
 
-[node name="HealthText" type="RichTextLabel" parent="."]
-offset_left = 24.0
-offset_top = 581.0
-offset_right = 174.0
-offset_bottom = 628.0
-theme_override_font_sizes/normal_font_size = 30
-text = "HEALTH: "
-
-[node name="HealthValue" type="Control" parent="."]
+[node name="HealthValue" type="Control" parent="HealthArea"]
 layout_mode = 3
-offset_left = 153.0
-offset_top = 581.0
-offset_right = 248.0
-offset_bottom = 630.0
+anchors_preset = 0
+offset_left = 156.0
+offset_top = 5.0
+offset_right = 251.0
+offset_bottom = 54.0
+scale = Vector2(1.04, 1.2)
+
+[node name="HealthText" type="RichTextLabel" parent="HealthArea"]
+offset_left = 12.0
+offset_top = 15.0
+offset_right = 162.0
+offset_bottom = 62.0
+theme_override_font_sizes/normal_font_size = 24
+text = "Health:"
+
+[node name="WeaponArea" type="Panel" parent="."]
+offset_left = 908.0
+offset_top = 578.0
+offset_right = 1142.0
+offset_bottom = 639.0
+
+[node name="AmmoTexts" type="RichTextLabel" parent="WeaponArea"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 14.0
+offset_right = 123.0
+offset_bottom = 59.0
+theme_override_font_sizes/normal_font_size = 24
+text = "Ammo:"
+
+[node name="LoadedAmmo" type="Control" parent="WeaponArea"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 55.0
+offset_top = 7.0
+offset_right = 150.0
+offset_bottom = 56.0
+scale = Vector2(1.01163, 1)
+
+[node name="Separator" type="RichTextLabel" parent="WeaponArea"]
+layout_mode = 0
+offset_left = 156.0
+offset_top = 5.0
+offset_right = 196.0
+offset_bottom = 45.0
+scale = Vector2(1.08108, 1.36667)
+theme_override_font_sizes/normal_font_size = 25
+text = "|"
+
+[node name="AvailableAmmo" type="Control" parent="WeaponArea"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 178.0
+offset_top = 7.0
+offset_right = 273.0
+offset_bottom = 56.0
+scale = Vector2(1.01163, 1)

@@ -14,6 +14,8 @@ func _on_weapons_manager_update_weapon_stack(WeaponStack):
 
 func _on_weapons_manager_update_ammo(Ammo):
 	current_ammo_label.set_text(str(Ammo[0])+" / "+str(Ammo[1]))
+	Global.ammo.text = "[right]%s[/right]" % str(Ammo[0])
+	Global.reserve_ammo.text = str(Ammo[1])
 
 func _on_weapons_manager_weapon_changed(WeaponName):
 	current_weapon_label.set_text(WeaponName)
@@ -34,5 +36,3 @@ func load_over_lay_texture(Active:bool, txtr: Texture2D = null):
 
 func _on_weapons_manager_connect_weapon_to_hud(_weapon_resouce: WeaponResource):
 	_weapon_resouce.update_overlay.connect(load_over_lay_texture)
-
-
