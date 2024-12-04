@@ -1,12 +1,10 @@
 extends Node
 
-var player_health: int = 100
-var player_health_string: String = str(player_health)
-signal player_injured(damage: int)
+var player_values: PlayerValues = preload("res://Classes/PlayerValues.gd").new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	player_values.connect('player_injured', player_values._on_player_injured)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

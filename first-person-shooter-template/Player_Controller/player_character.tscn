@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Player_Controller/scripts/Player_Character/player_character.gd" id="1_h0t42"]
 [ext_resource type="Script" path="res://Player_Controller/scripts/Player_Character/HUD.gd" id="2_tvwwj"]
-[ext_resource type="Texture2D" uid="uid://bjh5ic6qy4jtl" path="res://Player_Controller/HUD ASSETS/crosshair001.png" id="3_7f0mw"]
-[ext_resource type="Texture2D" uid="uid://uidicgaojgdi" path="res://Player_Controller/HUD ASSETS/crosshair046.png" id="4_l32wb"]
+[ext_resource type="Texture2D" uid="uid://crv35hh1n265s" path="res://Player_Controller/HUD ASSETS/crosshair001.png" id="3_7f0mw"]
+[ext_resource type="Texture2D" uid="uid://dfwhkyrh42wu4" path="res://Player_Controller/HUD ASSETS/crosshair046.png" id="4_l32wb"]
 [ext_resource type="Script" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_State_Machine.gd" id="5_wuueu"]
 [ext_resource type="Resource" uid="uid://yc1f2j7pl4vr" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_Resources/blasterI.tres" id="6_tpjp5"]
 [ext_resource type="Script" path="res://Player_Controller/scripts/Weapon_State_Machine/WeaponSlot.gd" id="6_wj0qi"]

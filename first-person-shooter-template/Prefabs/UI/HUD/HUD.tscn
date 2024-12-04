@@ -19,10 +19,9 @@ offset_bottom = 628.0
 theme_override_font_sizes/normal_font_size = 30
 text = "HEALTH: "
 
-[node name="HealthValue" type="RichTextLabel" parent="."]
-offset_left = 154.0
-offset_top = 569.0
-offset_right = 260.0
-offset_bottom = 635.0
-theme_override_font_sizes/normal_font_size = 45
-text = "###"
+[node name="HealthValue" type="Control" parent="."]
+layout_mode = 3
+offset_left = 153.0
+offset_top = 581.0
+offset_right = 248.0
+offset_bottom = 630.0

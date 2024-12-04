@@ -41,7 +41,7 @@ transform = Transform3D(0.922538, 0.232798, -0.30778, 0, 0.797552, 0.60325, 0.38
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_177p3")
 
-[node name="Hud" parent="." instance=ExtResource("5_m0vsa")]
-
-[node name="Spikes" parent="Hud" instance=ExtResource("6_3rcgw")]
+[node name="Spikes" parent="." instance=ExtResource("6_3rcgw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.66595, 0.687855, -19.5926)
+
+[node name="Hud" parent="." instance=ExtResource("5_m0vsa")]
