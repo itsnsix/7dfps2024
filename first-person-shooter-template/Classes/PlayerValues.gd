@@ -2,6 +2,7 @@ class_name PlayerValues
 
 var health: int
 var health_str: RichTextLabel
+var position: Vector3
 
 func _init() -> void:
 	health = 100
