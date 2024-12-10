@@ -12,5 +12,9 @@ func _physics_process(delta: float) -> void:
 		var current_location = global_transform.origin
 		var next_location = nav_agent.get_next_path_position()
 		var new_velocity = (next_location - current_location).normalized() * SPEED
-		velocity = new_velocity
-		move_and_slide()
+		nav_agent.set_velocity(new_velocity)
+
+
+func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:
+	velocity = velocity.move_toward(safe_velocity, 0.25)
+	move_and_slide()
