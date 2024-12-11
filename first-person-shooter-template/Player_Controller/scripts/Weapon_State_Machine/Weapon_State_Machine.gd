@@ -45,6 +45,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			exit(weapon_stack[_slot_number])
 		
 func _input(event: InputEvent) -> void:
+	if(GameManager.get_current_state_name() == "MENU"):
+		return
 	if event.is_action_pressed("WeaponUp"):
 		if check_valid_weapon_slot():
 			var weapon_index = weapon_stack.find(current_weapon_slot)

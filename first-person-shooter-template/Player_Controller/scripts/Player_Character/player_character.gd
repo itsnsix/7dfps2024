@@ -90,6 +90,7 @@ func _input(event: InputEvent) -> void:
 		_on_pause()
 	
 	if(GameManager.get_current_state_name() == "MENU"):
+		Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 		return
 #if event.is_action_pressed("ui_cancel"):
 		#if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -97,7 +98,8 @@ func _input(event: InputEvent) -> void:
 		#else:
 			#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	if event is InputEvent:
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		if (GameManager.get_current_state_name() != "MENU"):
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		
 	if event is InputEventMouseMotion:
 		var MouseEvent = event.relative * mouse_sensitivity

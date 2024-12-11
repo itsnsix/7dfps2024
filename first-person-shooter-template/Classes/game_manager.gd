@@ -21,7 +21,7 @@ var current_state: GameState = GameState.MENU
 var score : int = 0
 
 # Signal to broadcast state changes
-signal state_changed(new_state)
+signal state_changed(new_state : String)
 
 func _ready():
 	# Set process input to true to enable key input detection
@@ -43,7 +43,7 @@ func set_state(new_state : String):
 	if ns != current_state:
 		current_state = ns
 		# Broadcast the new state via signal
-		emit_signal("state_changed", current_state)
+		emit_signal("state_changed", new_state)
 		
 		# Debug log of current state
 		print("Game state changed to: ", GameState.keys()[current_state])

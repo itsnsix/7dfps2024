@@ -1,15 +1,16 @@
 extends Control
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
+func _ready():
+	GameManager.connect('state_changed', self._on_game_state_changed)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _on_game_state_changed():
-	if(GameManager.get_current_state_name() == "MENU"):
+func _on_game_state_changed(new_state : String):
+	print("mustard on the pipo!")
+	if(new_state == "MENU"):
 		get_child(0).visible = true
+		print("mustard on the beat yo!")
 	else:
 		#DIE
 		get_child(0).visible = false
