@@ -16,7 +16,7 @@ enum GameState {
 	preload("res://Levels/SquareRoom/SquareRoom.tscn")
 ]
 # Current game state
-var current_state: GameState = GameState.MENU
+var current_state: GameState = GameState.PLAYING
 
 var score : int = 0
 
