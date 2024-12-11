@@ -66,15 +66,6 @@ var near_door: bool = false
 # Lets the HUD know to update the health
 signal update_health()
 
-# All of the rooms that we can load
-var all_scenes: Array[String] = [
-	"res://Levels/BridgeRoom/BridgeRoom.tscn",
-	"res://Levels/HallwayRoom/HallwayRoom.tscn",
-	"res://Levels/HRoom/HRoom.tscn",
-	"res://Levels/SnakeyRoom/SnakeyRoom.tscn",
-	"res://Levels/SquareRoom/SquareRoom.tscn"
-]
-
 func _ready() -> void:
 	update_camera_rotation()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -95,6 +86,11 @@ func update_camera_rotation() -> void:
 	
 	
 func _input(event: InputEvent) -> void:
+	if (event.is_action_pressed("pause")):
+		_on_pause()
+	
+	if(GameManager.get_current_state_name() == "MENU"):
+		return
 #if event.is_action_pressed("ui_cancel"):
 		#if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -220,15 +216,8 @@ func _process(_delta: float) -> void:
 		subviewport_camera.global_transform = main_camera.global_transform
 	if near_door and Input.is_action_just_pressed("interact"):
 		# Randomly choose a room to load
-		var rand_int = randi() % all_scenes.size()
+		GameManager.change_scene()
 
-		# Don't load the same room because that's boring
-		while all_scenes[rand_int] == get_parent().scene_file_path:
-			rand_int = randi() % all_scenes.size()
-
-		# Load the next room
-		get_tree().change_scene_to_file(all_scenes[rand_int])
-		
 func _physics_process(_delta: float) -> void:
 	sprint_replenish(_delta)
 	lean_collision()
@@ -299,6 +288,16 @@ func _on_coyote_timer_timeout() -> void:
 func on_jump_buffer_timeout()->void:
 	jump_buffer = false
 
+func _on_pause():
+	match (GameManager.get_current_state_name()):
+		"PLAYING":
+			GameManager.set_state("MENU")
+			set_process(false)
+			set_physics_process(false)
+		"MENU":
+			GameManager.set_state("PLAYING")
+			set_process(true)
+			set_physics_process(true)
 # Set near_door = true when Door emits the "entered_door" signal
 func _on_entered_door(body: Node3D) -> void:
 	near_door = true
