@@ -15,6 +15,7 @@ func _ready() -> void:
 	var player = preload("res://Player_Controller/player_character.tscn").instantiate()
 	# Add the player to the root of the scene (wait until the root is ready)
 	add_child(player)
+	player.name = "player"
 	# Set the player's position to the spawn point position
 	player.global_position = spawn_door.get_node('SpawnPoint').global_position
 	# Set the player's camera as the current camera
