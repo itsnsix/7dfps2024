@@ -27,7 +27,7 @@ script = ExtResource("1_2ccdn")
 
 [node name="Enemy FOV" type="Area3D" parent="."]
 collision_layer = 32
-collision_mask = 2
+collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy FOV"]
 shape = SubResource("CylinderShape3D_ls7su")
