@@ -53,6 +53,9 @@ avoidance_enabled = true
 [node name="EnemyHealthBar" parent="." instance=ExtResource("2_q5eip")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
+[node name="ShootTimer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="Enemy FOV" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Enemy FOV" to="." method="_on_area_3d_body_exited"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

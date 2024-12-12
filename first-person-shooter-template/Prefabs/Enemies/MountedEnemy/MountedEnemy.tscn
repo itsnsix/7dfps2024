@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://db2um2eahtexx" path="res://Prefabs/UI/EnemyHealthBar/EnemyHealthBar.tscn" id="2_6psdg"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ls7su"]
-radius = 10.0
+height = 20.0
+radius = 20.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hbn21"]
 
@@ -54,5 +55,8 @@ avoidance_enabled = true
 [node name="EnemyHealthBar" parent="." instance=ExtResource("2_6psdg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 
+[node name="ShootTimer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="Enemy FOV" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Enemy FOV" to="." method="_on_area_3d_body_exited"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

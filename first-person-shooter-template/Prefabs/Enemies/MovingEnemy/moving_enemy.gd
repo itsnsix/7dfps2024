@@ -2,21 +2,23 @@ class_name MovingEnemy extends CharacterBody3D
 
 @onready var nav_agent = $NavigationAgent3D
 @onready var health_bar = $EnemyHealthBar/SubViewport/ProgressBar
-
-@onready var player_entered: bool = false
+@onready var shoot_timer = $ShootTimer
+var player_entered: bool = false
 var speed = 4
 var state = IDLE
 var fov = deg_to_rad(60)
+var accuracy_modifier = 0.5
+var damage = 1
 
 enum {
 	MENU,
 	ACTION,
 	LOADING,
-	IDLE,
-	PATROL,
-	ALERT,
-	INJURED,
-	KILLED
+	IDLE,    # Not doing anything
+	PATROL,  # Moving around some predefined path
+	ALERT,   # Engaging the player
+	INJURED, # Stunned or has just taken damage
+	KILLED   # Dead
 }
 
 func _physics_process(delta: float) -> void:
@@ -28,9 +30,11 @@ func _physics_process(delta: float) -> void:
 		state = ALERT
 		target_player()
 		chase_player(delta)
-		shoot()
+		if shoot_timer.is_stopped():
+			shoot_timer.start()
 	else:
 		state = PATROL
+		shoot_timer.stop()
 		idle_state()
 
 func idle_state():
@@ -61,7 +65,15 @@ func player_visible() -> bool:
 	return false
 
 func shoot():
-	pass
+	var player = get_tree().current_scene.get_node("player")
+	var state_space = get_world_3d().direct_space_state
+	var from = global_transform.origin + Vector3(0, 2, 0)
+	var to = player.global_transform.origin + Vector3(randf(), randf(), randf()) * accuracy_modifier
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.exclude = [self]
+	var result = state_space.intersect_ray(query)
+	if result && result.collider.name == "player":
+		Global.player_values._on_player_injured(damage)
 
 
 func player_in_fov():
@@ -88,3 +100,8 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 
 func _on_area_3d_body_exited(body: Node3D) -> void:
 	player_entered = false
+
+
+func _on_shoot_timer_timeout() -> void:
+	print('shooting')
+	shoot()
