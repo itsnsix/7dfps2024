@@ -19,3 +19,13 @@ func _ready() -> void:
 	Global.reserve_ammo.set_position($WeaponArea/AvailableAmmo.global_position)
 	Global.reserve_ammo.set_size($WeaponArea/AvailableAmmo.size)
 	Global.reserve_ammo.add_theme_font_size_override('normal_font_size', 34)
+	
+	Global.player_values.connect("flashScreen",flashScreen)
+	
+func flashScreen():
+	$DamageIndicator.color = Color(1, 0, 0, 0.5)  # Red color with 50% transparency
+	$Timer.start()
+
+func _on_timer_timeout() -> void:
+	$DamageIndicator.color = Color(1, 0, 0, 0) 
+	pass # Replace with function body.
