@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cmli48im5v8wc"]
+[gd_scene load_steps=9 format=3 uid="uid://cmli48im5v8wc"]
 
 [ext_resource type="Script" path="res://Prefabs/Enemies/MovingEnemy/moving_enemy.gd" id="1_2ccdn"]
+[ext_resource type="PackedScene" uid="uid://db2um2eahtexx" path="res://Prefabs/UI/EnemyHealthBar/EnemyHealthBar.tscn" id="2_q5eip"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ls7su"]
-radius = 10.0
+height = 20.0
+radius = 20.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_saq3o"]
 
@@ -19,7 +21,7 @@ albedo_color = Color(1, 1, 0, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_3ffyt"]
 material = SubResource("StandardMaterial3D_lgsbf")
 
-[node name="MovingEnemy" type="CharacterBody3D"]
+[node name="MovingEnemy" type="CharacterBody3D" groups=["Enemies", "Target"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_layer = 32
 collision_mask = 2
@@ -29,7 +31,7 @@ script = ExtResource("1_2ccdn")
 collision_layer = 32
 collision_mask = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy FOV"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy FOV" groups=["Enemies", "Target"]]
 shape = SubResource("CylinderShape3D_ls7su")
 
 [node name="EnemyHitbox" type="CollisionShape3D" parent="."]
@@ -47,6 +49,9 @@ target_desired_distance = 5.0
 avoidance_enabled = true
 
 [node name="FaceDirection" type="Node3D" parent="."]
+
+[node name="EnemyHealthBar" parent="." instance=ExtResource("2_q5eip")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [connection signal="body_entered" from="Enemy FOV" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Enemy FOV" to="." method="_on_area_3d_body_exited"]

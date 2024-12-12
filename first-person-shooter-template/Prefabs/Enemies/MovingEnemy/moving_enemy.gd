@@ -1,17 +1,36 @@
 class_name MovingEnemy extends CharacterBody3D
 
 @onready var nav_agent = $NavigationAgent3D
-@onready var player_entered: bool = false
-var speed = 2
+@onready var health_bar = $EnemyHealthBar/SubViewport/ProgressBar
 
+@onready var player_entered: bool = false
+var speed = 4
+var state = IDLE
+var fov = deg_to_rad(60)
+
+enum {
+	MENU,
+	ACTION,
+	LOADING,
+	IDLE,
+	PATROL,
+	ALERT,
+	INJURED,
+	KILLED
+}
 
 func _physics_process(delta: float) -> void:
 
-	if player_entered and check_player_in_view() and player_visible():
+	if state == KILLED:
+		queue_free()
+		
+	if player_entered and player_in_fov() and player_visible():
+		state = ALERT
 		target_player()
 		chase_player(delta)
 		shoot()
 	else:
+		state = PATROL
 		idle_state()
 
 func idle_state():
@@ -32,7 +51,7 @@ func chase_player(delta: float):
 func player_visible() -> bool:
 	var player = get_tree().current_scene.get_node("player")
 	var state_space = get_world_3d().direct_space_state
-	var from = global_transform.origin;
+	var from = global_transform.origin + Vector3(0, 2, 0);
 	var to = player.global_transform.origin
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	query.exclude = [self]
@@ -45,9 +64,18 @@ func shoot():
 	pass
 
 
-func check_player_in_view():
+func player_in_fov():
 	var direction = global_position.direction_to(Global.player_values.position)
-	return global_transform.basis.tdotz(direction) < cos(deg_to_rad(60))
+	return global_transform.basis.tdotz(direction) < cos(fov)
+
+
+func Hit_Successful(_damage, Direction, Position):
+	print('%s im hit' % name)
+	health_bar.value -= _damage
+	if health_bar.value > 0:
+		state = INJURED
+	else:
+		state = KILLED
 
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3) -> void:

@@ -21,6 +21,7 @@ offset_bottom = 54.0
 scale = Vector2(1.04, 1.2)
 
 [node name="HealthText" type="RichTextLabel" parent="HealthArea"]
+layout_mode = 0
 offset_left = 12.0
 offset_top = 15.0
 offset_right = 162.0

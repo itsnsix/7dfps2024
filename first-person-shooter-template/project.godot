@@ -29,6 +29,7 @@ import/fbx/enabled=false
 World=""
 Doors="All Doors in all scenes"
 Enemies=""
+Target="Things you can kill"
 
 [input]
 
