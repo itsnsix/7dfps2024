@@ -1,8 +1,9 @@
-class_name MovingEnemy extends CharacterBody3D
+class_name EnemyBase extends CharacterBody3D
 
 @onready var nav_agent = $NavigationAgent3D
 @onready var health_bar = $EnemyHealthBar/SubViewport/ProgressBar
 @onready var shoot_timer = $ShootTimer
+
 var player_entered: bool = false
 var speed = 4
 var state = IDLE
@@ -15,6 +16,8 @@ enum {
 	ACTION,
 	LOADING,
 	IDLE,    # Not doing anything
+	WAKEUP,  # Just saw the player
+	SLEEP,   # Lost the player going back to sleep
 	PATROL,  # Moving around some predefined path
 	ALERT,   # Engaging the player
 	INJURED, # Stunned or has just taken damage
@@ -22,20 +25,25 @@ enum {
 }
 
 func _physics_process(delta: float) -> void:
+	
 
 	if state == KILLED:
 		queue_free()
 		
 	if player_entered and player_in_fov() and player_visible():
-		state = ALERT
-		target_player()
-		chase_player(delta)
-		if shoot_timer.is_stopped():
-			shoot_timer.start()
+		if state == IDLE:
+			state = WAKEUP
+		if state == ALERT:
+			target_player()
+			chase_player(delta)
+			if shoot_timer.is_stopped():
+				shoot_timer.start()
 	else:
-		state = PATROL
-		shoot_timer.stop()
-		idle_state()
+		if state == ALERT:
+			state = SLEEP
+		elif state == IDLE:
+			shoot_timer.stop()
+			idle_state()
 
 func idle_state():
 	nav_agent.set_velocity(Vector3.ZERO)
