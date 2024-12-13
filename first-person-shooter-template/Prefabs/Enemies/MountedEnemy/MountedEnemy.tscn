@@ -7,8 +7,8 @@
 [ext_resource type="ArrayMesh" uid="uid://bempn75u4ixnj" path="res://Prefabs/Enemies/MountedEnemy/TurretGun.res" id="5_u600o"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ls7su"]
-height = 29.694
-radius = 67.6637
+height = 20.694
+radius = 20.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_akkcg"]
 viewport_path = NodePath("TurretCore/SubViewport")
@@ -21,8 +21,8 @@ corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3hjsp"]
-height = 5.66385
-radius = 2.20643
+height = 1.21941
+radius = 0.66749
 
 [sub_resource type="Animation" id="Animation_x1etk"]
 resource_name = "go_idle"
@@ -105,7 +105,7 @@ _data = {
 }
 
 [node name="MountedEnemy" type="CharacterBody3D" groups=["Enemies", "Target"]]
-transform = Transform3D(0.288, 0, 0, 0, 0.288, 0, 0, 0, 0.288, 0, 0.158645, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.158645, 0)
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_70fwr")
@@ -130,11 +130,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75447, 0)
 [node name="ShootTimer" type="Timer" parent="."]
 
 [node name="TurretBase" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.335, 0)
 mesh = ExtResource("3_qtgr3")
 
 [node name="TurretCore" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.667645, 0, 0.744479, 0, 1, 0, -0.744479, 0, -0.667645, 0, -0.4, 0)
+transform = Transform3D(-0.200294, 0, 0.223344, 0, 0.3, 0, -0.223344, 0, -0.200294, 0, -0.4, 0)
 mesh = ExtResource("4_srrjh")
 
 [node name="TurretGun" type="MeshInstance3D" parent="TurretCore"]

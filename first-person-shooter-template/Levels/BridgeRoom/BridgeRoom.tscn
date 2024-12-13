@@ -59,7 +59,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.66595, 0.687855, -19.5926)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.54899, 0)
 
 [node name="MountedEnemy" parent="." instance=ExtResource("8_y2pgg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6091, 2.51976, 0)
-
-[node name="MountedEnemy2" parent="." instance=ExtResource("8_y2pgg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.87479, 0.573202, 23.812)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1141, 2.5541, -2.01922)
