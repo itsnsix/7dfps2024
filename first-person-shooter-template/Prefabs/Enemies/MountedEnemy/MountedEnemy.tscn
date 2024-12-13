@@ -21,27 +21,8 @@ corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3hjsp"]
-height = 1.21941
+height = 1.04902
 radius = 0.66749
-
-[sub_resource type="Animation" id="Animation_x1etk"]
-resource_name = "go_idle"
-length = 1.25
-step = 0.25
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TurretCore/TurretGun")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.527486, 0, 0.233333, 1, 0, 0.527486, -0.376024, 0.5, 1, 0, 0.527486, 1.51795)
-tracks/1/type = "position_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("TurretCore")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0.5, 1, 0, -0.801411, 0, 0.733333, 1, 0, -0.361017, 0, 1.25, 1, 0, -3.2994, 0)
 
 [sub_resource type="Animation" id="Animation_ut1ja"]
 length = 0.001
@@ -71,6 +52,25 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+
+[sub_resource type="Animation" id="Animation_x1etk"]
+resource_name = "go_idle"
+length = 1.25
+step = 0.25
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TurretCore/TurretGun")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.527486, 0, 0.233333, 1, 0, 0.527486, -0.376024, 0.5, 1, 0, 0.527486, 1.51795)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TurretCore")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.5, 1, 0, -0.801411, 0, 0.733333, 1, 0, -0.361017, 0, 1.25, 1, 0, -3.2994, 0)
 
 [sub_resource type="Animation" id="Animation_npgmn"]
 resource_name = "patrol"
@@ -105,13 +105,12 @@ _data = {
 }
 
 [node name="MountedEnemy" type="CharacterBody3D" groups=["Enemies", "Target"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.158645, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.408092, 0)
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_70fwr")
 
 [node name="FaceDirection" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Enemy FOV" type="Area3D" parent="."]
 collision_layer = 32
@@ -125,7 +124,7 @@ target_desired_distance = 5.0
 avoidance_enabled = true
 
 [node name="EnemyHealthBar" parent="." instance=ExtResource("2_6psdg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75447, 0)
+transform = Transform3D(0.535543, 0, 0, 0, 0.535543, 0, 0, 0, 0.535543, 0, 1.01403, 0)
 
 [node name="ShootTimer" type="Timer" parent="."]
 
@@ -134,7 +133,7 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.335, 0)
 mesh = ExtResource("3_qtgr3")
 
 [node name="TurretCore" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.200294, 0, 0.223344, 0, 0.3, 0, -0.223344, 0, -0.200294, 0, -0.4, 0)
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.4, 0)
 mesh = ExtResource("4_srrjh")
 
 [node name="TurretGun" type="MeshInstance3D" parent="TurretCore"]
@@ -165,6 +164,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fsfcr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.191882, 0)
 shape = SubResource("CylinderShape3D_3hjsp")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -41,9 +41,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		if state == ALERT:
 			state = SLEEP
-		elif state == IDLE:
+			nav_agent.set_velocity(Vector3.ZERO)
 			shoot_timer.stop()
-			idle_state()
+		elif state == IDLE:
+			pass
 
 func idle_state():
 	nav_agent.set_velocity(Vector3.ZERO)

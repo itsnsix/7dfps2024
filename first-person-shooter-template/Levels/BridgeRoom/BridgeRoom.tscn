@@ -55,11 +55,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.66595, 0.687855, -19.5926)
 
 [node name="Hud" parent="." instance=ExtResource("5_m0vsa")]
 
-[node name="MovingEnemy" parent="." instance=ExtResource("7_uqqnl")]
+[node name="SpiderBot" parent="." instance=ExtResource("7_uqqnl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.54899, 0)
 
-[node name="MountedEnemy" parent="." instance=ExtResource("8_y2pgg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6091, 2.51976, 0)
+[node name="Turret" parent="." instance=ExtResource("8_y2pgg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.73008, 0.408093, 25.6804)
 
-[node name="MountedEnemy2" parent="." instance=ExtResource("8_y2pgg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.87479, 0.573202, 23.812)
+[node name="Turret2" parent="." instance=ExtResource("8_y2pgg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5951, 2.39296, -0.614878)
