@@ -1,31 +1,21 @@
-[gd_scene load_steps=9 format=3 uid="uid://cmli48im5v8wc"]
+[gd_scene load_steps=6 format=3 uid="uid://cmli48im5v8wc"]
 
-[ext_resource type="Script" path="res://Prefabs/Enemies/MovingEnemy/moving_enemy.gd" id="1_2ccdn"]
+[ext_resource type="Script" path="res://Prefabs/Enemies/MovingEnemy/spider_bot.gd" id="1_pvhgx"]
 [ext_resource type="PackedScene" uid="uid://db2um2eahtexx" path="res://Prefabs/UI/EnemyHealthBar/EnemyHealthBar.tscn" id="2_q5eip"]
+[ext_resource type="PackedScene" uid="uid://5pfkntv3fhwo" path="res://Prefabs/Enemies/MovingEnemy/SpiderBot.tscn" id="3_5jmyi"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ls7su"]
 height = 20.0
 radius = 20.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_saq3o"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6wx7g"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_4y5sv"]
-material = SubResource("StandardMaterial3D_6wx7g")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lgsbf"]
-albedo_color = Color(1, 1, 0, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_3ffyt"]
-material = SubResource("StandardMaterial3D_lgsbf")
+size = Vector3(0.789062, 0.834106, 1.10156)
 
 [node name="MovingEnemy" type="CharacterBody3D" groups=["Enemies", "Target"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_layer = 32
 collision_mask = 2
-script = ExtResource("1_2ccdn")
+script = ExtResource("1_pvhgx")
 
 [node name="Enemy FOV" type="Area3D" parent="."]
 collision_layer = 32
@@ -35,14 +25,8 @@ collision_mask = 3
 shape = SubResource("CylinderShape3D_ls7su")
 
 [node name="EnemyHitbox" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.775168, 0)
 shape = SubResource("BoxShape3D_saq3o")
-
-[node name="EnemyMesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_4y5sv")
-
-[node name="EnemyGun" type="MeshInstance3D" parent="."]
-transform = Transform3D(-3.28405e-16, -3.12927e-08, -0.2, -0.2, -3.12927e-08, 0, -8.74228e-09, 0.715893, -8.74228e-09, 0.00438783, 0.350817, -0.579864)
-mesh = SubResource("CylinderMesh_3ffyt")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 target_desired_distance = 5.0
@@ -51,7 +35,10 @@ avoidance_enabled = true
 [node name="FaceDirection" type="Node3D" parent="."]
 
 [node name="EnemyHealthBar" parent="." instance=ExtResource("2_q5eip")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(0.553681, 0, 0, 0, 0.553681, 0, 0, 0, 0.553681, 0, 1.38905, 0)
+
+[node name="SpiderBot" parent="." instance=ExtResource("3_5jmyi")]
+transform = Transform3D(-0.520738, 0, 4.55243e-08, 0, 0.520738, 0, -4.55243e-08, 0, -0.520738, 0, -0.5, 0)
 
 [node name="ShootTimer" type="Timer" parent="."]
 
