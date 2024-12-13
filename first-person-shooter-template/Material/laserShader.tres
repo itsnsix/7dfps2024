@@ -1,0 +1,86 @@
+[gd_resource type="VisualShader" load_steps=9 format=3 uid="uid://chryivrsl1t4c"]
+
+[ext_resource type="Texture2D" uid="uid://blv242xovw7iq" path="res://Material/lasermbeam.png" id="1_rtm0w"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_yiqnr"]
+expanded_output_ports = [0]
+texture = ExtResource("1_rtm0w")
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_nache"]
+expanded_output_ports = [0]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_xvs40"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 0)]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeVec2Constant" id="VisualShaderNodeVec2Constant_hko3p"]
+constant = Vector2(1, 0)
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_xh4yq"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_6e70n"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_5lhfk"]
+parameter_name = "Texture2DParameter"
+texture_type = 1
+texture_repeat = 1
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D Texture2DParameter : source_color, repeat_enable;
+uniform sampler2D tex_frg_2;
+
+
+
+void fragment() {
+// Input:3
+	vec2 n_out3p0 = UV;
+
+
+// Input:8
+	float n_out8p0 = TIME;
+
+
+// Vector2Constant:6
+	vec2 n_out6p0 = vec2(1.000000, 0.000000);
+
+
+// VectorOp:7
+	vec3 n_out7p0 = vec3(n_out8p0) + vec3(n_out6p0, 0.0);
+
+
+// VectorOp:5
+	vec2 n_out5p0 = n_out3p0 + vec2(n_out7p0.xy);
+
+
+// Texture2D:2
+	vec4 n_out2p0 = texture(tex_frg_2, n_out5p0);
+
+
+// Output:0
+	EMISSION = vec3(n_out2p0.xyz);
+
+
+}
+"
+graph_offset = Vector2(-516.525, 176.904)
+nodes/fragment/0/position = Vector2(400, 120)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_yiqnr")
+nodes/fragment/2/position = Vector2(-200, 20)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_nache")
+nodes/fragment/3/position = Vector2(-1000, 140)
+nodes/fragment/5/node = SubResource("VisualShaderNodeVectorOp_xvs40")
+nodes/fragment/5/position = Vector2(-600, 120)
+nodes/fragment/6/node = SubResource("VisualShaderNodeVec2Constant_hko3p")
+nodes/fragment/6/position = Vector2(-880, 500)
+nodes/fragment/7/node = SubResource("VisualShaderNodeVectorOp_xh4yq")
+nodes/fragment/7/position = Vector2(-631.795, 389.31)
+nodes/fragment/8/node = SubResource("VisualShaderNodeInput_6e70n")
+nodes/fragment/8/position = Vector2(-980, 380)
+nodes/fragment/9/node = SubResource("VisualShaderNodeTexture2DParameter_5lhfk")
+nodes/fragment/9/position = Vector2(-580, 560)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 5, 3, 0, 5, 0, 6, 0, 7, 1, 8, 0, 7, 0, 7, 0, 5, 1, 5, 0, 2, 0, 9, 0, 2, 2)

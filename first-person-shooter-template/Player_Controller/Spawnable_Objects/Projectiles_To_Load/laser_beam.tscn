@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://8sfn26nllwcr"]
+
+[ext_resource type="Script" path="res://Player_Controller/scripts/Projectiles/LaserBeam.gd" id="1_g4g03"]
+[ext_resource type="Texture2D" uid="uid://dxthwotib6j68" path="res://Title.png" id="2_go3ga"]
+[ext_resource type="Material" uid="uid://dd82qcttbwbcj" path="res://Material/lasershadermat.tres" id="3_i3bf3"]
+
+[node name="LaserBeam" type="Node3D"]
+script = ExtResource("1_g4g03")
+line_tex = ExtResource("2_go3ga")
+laser_mat = ExtResource("3_i3bf3")
+Projectile_Velocity = 10
+Expirey_Time = 15
+pass_through = true
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+visible = false
+material = ExtResource("3_i3bf3")

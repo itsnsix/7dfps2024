@@ -6,8 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://ccym2ipsj7dm8" path="res://Prefabs/UI/Pause Menu/pause_menu.tscn" id="3_rgccn"]
 [ext_resource type="Texture2D" uid="uid://bjflc8kr6vm1i" path="res://Player_Controller/HUD ASSETS/crosshair046.png" id="4_l32wb"]
 [ext_resource type="Script" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_State_Machine.gd" id="5_wuueu"]
-[ext_resource type="Resource" uid="uid://yc1f2j7pl4vr" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_Resources/blasterI.tres" id="6_tpjp5"]
 [ext_resource type="Script" path="res://Player_Controller/scripts/Weapon_State_Machine/WeaponSlot.gd" id="6_wj0qi"]
+[ext_resource type="Resource" uid="uid://cfpcgda6uk3on" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_Resources/Railgun.tres" id="8_vdne3"]
 [ext_resource type="AnimationLibrary" uid="uid://uybino34n0sj" path="res://Player_Controller/weapon_animation.res" id="13_lmhsg"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_rj3p7"]
@@ -25,9 +25,9 @@ thickness = 10
 
 [sub_resource type="Resource" id="Resource_4pcyg"]
 script = ExtResource("6_wj0qi")
-weapon = ExtResource("6_tpjp5")
-current_ammo = 30
-reserve_ammo = 60
+weapon = ExtResource("8_vdne3")
+current_ammo = 1000
+reserve_ammo = 6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0fswt"]
 resource_name = "dark"
@@ -2078,13 +2078,18 @@ crouch_collision = NodePath("CrouchCollider")
 right_lean_collision = NodePath("Camera/LeanLeftCollision")
 left_lean_collision = NodePath("Camera/LeanRighCollision")
 sprint_timer = NodePath("SprintTimer")
+sprint_time = 8.0
+sprint_replenish_rate = 0.75
 acceleration = 20.0
+air_acceleration_modifier = 1.0
 coyote_timer = NodePath("CoyoteTimer")
 metadata/_edit_group_ = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_tvwwj")
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_rgccn")]
 
 [node name="Overlay" type="TextureRect" parent="CanvasLayer"]
 visible = false
@@ -2096,8 +2101,6 @@ grow_vertical = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-
-[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_rgccn")]
 
 [node name="debug_hud" type="VBoxContainer" parent="CanvasLayer"]
 visible = false
@@ -2258,7 +2261,7 @@ mesh = SubResource("ArrayMesh_kn6m3")
 skeleton = NodePath("")
 
 [node name="blasterP2" type="Node3D" parent="Camera/LeanPivot/MainCamera/Weapons_Manager/Weapons_Models"]
-transform = Transform3D(-0.97237, -0.233408, -0.00407487, 0, 0.0174555, -0.999848, 0.233443, -0.972222, -0.0169732, 0.32, 1.014, -0.35)
+transform = Transform3D(-0.972369, -0.233408, -0.00407487, 0, 0.0174555, -0.999848, 0.233443, -0.972222, -0.0169732, 0.32, 1.014, -0.35)
 visible = false
 
 [node name="blasterP" type="MeshInstance3D" parent="Camera/LeanPivot/MainCamera/Weapons_Manager/Weapons_Models/blasterP2"]

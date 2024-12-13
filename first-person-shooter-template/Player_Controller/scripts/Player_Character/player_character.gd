@@ -90,7 +90,7 @@ func _input(event: InputEvent) -> void:
 		_on_pause()
 	
 	if(GameManager.get_current_state_name() == "MENU"):
-		Input.mouse_mode = Input.MOUSE_MODE_CONFINED
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		return
 #if event.is_action_pressed("ui_cancel"):
 		#if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
