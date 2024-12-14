@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=3 format=3 uid="uid://7swa4ygnmfn8"]
+
+[ext_resource type="Script" path="res://Player_Controller/scripts/Weapon_State_Machine/weapon_resource.gd" id="1_8i6ws"]
+[ext_resource type="PackedScene" uid="uid://dmod4tesk7oia" path="res://Player_Controller/Spawnable_Objects/Projectiles_To_Load/teleport_beam.tscn" id="1_py5jq"]
+
+[resource]
+script = ExtResource("1_8i6ws")
+weapon_name = "telebow"
+pick_up_animation = "Global/blasterN Active"
+shoot_animation = "Global/blasterN Shoot"
+reload_animation = "Global/blasterN Reload"
+change_animation = "Global/blasterN Deactivate"
+drop_animation = "Global/blasterN Drop"
+out_of_ammo_animation = "Global/blasterN OOA"
+melee_animation = "Global/blasterN Melee"
+has_ammo = true
+magazine = 6
+max_ammo = 24
+damage = 4
+melee_damage = 0.0
+auto_fire = false
+fire_range = 100
+can_be_dropped = false
+projectile_to_load = ExtResource("1_py5jq")
+incremental_reload = false
