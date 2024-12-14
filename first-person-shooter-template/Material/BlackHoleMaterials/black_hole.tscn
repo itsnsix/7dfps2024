@@ -1,0 +1,462 @@
+[gd_scene load_steps=41 format=3 uid="uid://4a5f4am0fe6q"]
+
+[ext_resource type="Script" path="res://Material/BlackHoleMaterials/black_hole.gd" id="1_468yb"]
+[ext_resource type="Texture2D" uid="uid://bbk13naxudotu" path="res://Material/BlackHoleMaterials/black_hole_core.png" id="1_kos3x"]
+[ext_resource type="Material" uid="uid://14k7hh37tg3o" path="res://Material/BlackHoleMaterials/black_hole.tres" id="2_8onyj"]
+[ext_resource type="Shader" path="res://Material/BlackHoleMaterials/swiper.gdshader" id="2_kupjs"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_iutgi"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_upke4"]
+noise_type = 0
+frequency = 0.0164
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_slh5x"]
+noise = SubResource("FastNoiseLite_upke4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lr3sr"]
+transparency = 1
+blend_mode = 3
+albedo_texture = SubResource("NoiseTexture2D_slh5x")
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
+emission_enabled = true
+emission = Color(1, 0.4, 1, 1)
+emission_energy_multiplier = 231.91
+rim_enabled = true
+rim = 0.0
+rim_tint = 0.45
+clearcoat_roughness = 0.0
+refraction_scale = -1.0
+billboard_keep_scale = true
+
+[sub_resource type="Animation" id="Animation_yadvg"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+tracks/1/type = "scale_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_6tt8r"]
+resource_name = "pulsing"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.25, 1, 0.668, -0.333, 0.564, 0.354, 0.5, 1, -0.348, 0.655, -0.659, 0.128, 0.75, 1, -0.804, -0.08, -0.579, 0.111, 1, 1, 0, 0, 0, 1)
+tracks/1/type = "scale_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 1.14415, 1.14415, 1.14415, 0.25, 1, 1.01414, 1.01414, 1.01414, 0.5, 1, 1.26857, 1.26857, 1.26857, 0.75, 1, 1.00706, 1.00706, 1.00706, 1, 1, 1.14415, 1.14415, 1.14415)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node3D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.25, 1, 0.668, -0.333, 0.564, 0.354, 0.5, 1, -0.348, 0.655, -0.659, 0.128, 0.75, 1, -0.804, -0.08, -0.579, 0.111, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0pt10"]
+_data = {
+"RESET": SubResource("Animation_yadvg"),
+"pulsing": SubResource("Animation_6tt8r")
+}
+
+[sub_resource type="QuadMesh" id="QuadMesh_mhree"]
+
+[sub_resource type="Shader" id="Shader_s65rn"]
+code = "shader_type spatial;
+render_mode specular_toon,diffuse_toon,cull_disabled;
+
+group_uniforms ANIMATION;
+uniform float time_offset = 0.0;
+uniform float progress : hint_range(0.0, 1.0, 0.01) = 0.0;
+// This value animates this shader when DERIVE_PROGRESS is set to 0.0
+
+uniform float derive_progress : hint_range(-1.0, 1.0, 1.0) = 0.0;
+// 0.0 Use PROGRESS (Change value in code or animation player)
+// -1.0 Use TIME (Idle Loop)
+// 1.0 use LIFETIME (Particle)
+
+uniform float ease_progress : hint_range(-1.0, 1.0, 1.0) = 0.0;
+// 0.0 No easing
+// -1.0 Ease : Expo In
+// 1.0 Ease : Expo Out
+
+uniform float time_scale : hint_range(0.0, 8.0, 0.01) = 1.0;
+uniform float anim_rot_amt : hint_range(0.0, 1.0, 0.01) = 1.0;
+// ^^^
+// The shader is setup to rotate the main image as it progresses, 
+// set this to 0 to disable that behaviour
+group_uniforms;
+
+group_uniforms SHAPE;
+uniform sampler2D base_noise : hint_default_white, filter_linear_mipmap;
+// ^^^ 
+// This is the basis of the main rough looking shape, It's width should be 
+// stretched but that's up to you.
+
+// these should be GradientTexture1Ds
+uniform sampler2D width_gradient_mask : hint_default_transparent;
+// ^^^ 
+// This clips the slashes width, use white for what you want to clip, and 
+// black for what you want to keep.
+uniform sampler2D length_gradient_mask : hint_default_transparent;
+// ^^^ 
+// This clips the slashes \"length\" and controls how it animates... uh try 
+// using a gradient that progresses 'white -> black -> white'
+uniform sampler2D highlight : source_color,hint_default_transparent;
+// ^^^ 
+// This will be overlayed ontop of the main shape, it will get masked by 
+// LENGTH_GRADIENT_MASK so it animates in sync with the main shape.
+
+uniform float zoom : hint_range(0.0, 2.0, 0.01) = 0.6; // Scales the final image, Inverted (smaller means bigger)
+uniform float rotate_all : hint_range(0.0, 360.0, 0.1) = 0.0; // Rotates the final image by x degrees
+group_uniforms;
+
+group_uniforms COLORING;
+uniform float emission_strength : hint_range(0.0, 1.0, 0.1) = 1.0;
+// ^^^
+// Makes it glow
+
+uniform float mix_strength : hint_range(0.0, 2.0, 0.01) = 1.0; 
+// ^^^
+// Controls how COLOR_LOOKUP is applied, less will move it closer to black if
+// COLOR_LOOKUP isn't empty
+
+// this should be a GradientTexture1D
+uniform sampler2D color_lookup : source_color,hint_default_white;
+
+varying float LIFETIME;
+varying float INDEX;
+
+vec2 polar_coordinates(vec2 uv, vec2 center, float zoomm, float repeat) {
+	vec2 dir = uv - center;
+	float radius = length(dir) * 2.0;
+	float angle = atan(dir.y, dir.x) * 1.0/(3.1416 * 2.0);
+	return mod(vec2(radius * zoomm, angle * repeat), 1.0);
+}
+
+vec2 rotate(vec2 uv, vec2 pivot, float angle) {
+	mat2 rotation = mat2(vec2(sin(angle), -cos(angle)),
+						vec2(cos(angle), sin(angle)));
+	uv -= pivot;
+	uv = uv * rotation;
+	uv += pivot;
+	return uv;
+}
+
+// Easing Functions Adapted From https://easings.net/
+
+float easeOutExpo(float x) {
+	return 1.0 - pow(2.0, -10.0 * x);
+}
+
+float easeInExpo(float x) {
+	return pow(2.0, 10.0 * x - 10.0);
+}
+
+//Circ
+float easeInOut(float x) {
+	float result;
+	if (x < 0.5) {result = (1.0 - sqrt(1.0 - pow(2.0 * x, 2.0))) / 2.0;}
+	else {result =(sqrt(1.0 - pow(-2.0 * x + 2.0, 2.0)) + 1.0) / 2.0;}
+	return result;
+}
+
+void vertex() {
+	LIFETIME = INSTANCE_CUSTOM.y;
+	INDEX = float(INSTANCE_ID);
+}
+
+float get_progress() {
+	float p;
+	float final;
+	if (derive_progress > 0.0) {p = LIFETIME;}
+	else if (derive_progress < 0.0) {p = mod((TIME + time_offset) * time_scale,0.2);}
+	// You can change out what p is equal to here to tweak the idle loop behaviour
+	// abs(sin(TIME * time_scale)) [Back and Forth]
+	// mod(TIME * time_scale,1.0) [Over and Over]
+	else {p = progress;}
+	
+	if (ease_progress > 0.0) {final = easeOutExpo(p);}
+	else if (ease_progress < 0.0) {final = easeInExpo(p);}
+	else {final = p;}
+	
+	return final;
+}
+
+void fragment() {
+	// Get Values
+	float p = get_progress();
+	vec2 aUV = polar_coordinates(rotate(UV,vec2(0.5),radians(rotate_all)),vec2(0.5),zoom,1.0);
+	vec4 b = texture(base_noise,aUV - vec2(0.0,p));
+	vec4 wm = texture(width_gradient_mask,aUV);
+	vec4 lm = texture(length_gradient_mask,rotate(aUV-vec2(0.0,easeInOut(p * anim_rot_amt)),vec2(0.5),radians(180.0)));
+	
+	// Combine Them
+	vec4 prefinal = (b-wm) - lm;
+	vec3 albe = vec3(1.0)*(texture(color_lookup,vec2(clamp(prefinal.r * UV.x,0.0,1.0),0.0)).rgb*mix_strength);
+	vec4 high = clamp(texture(highlight,aUV) - (lm),0.0,1.0);
+	
+	// Apply Them
+	ALBEDO = clamp(albe + high.rgb,0.0,1.0);
+	EMISSION = clamp(albe + high.rgb,0.0,1.0) * (3.0 * emission_strength);
+	
+	float start = abs(cos(p * PI));
+	float end = abs(cos(p * PI));
+	ALPHA *= clamp(smoothstep(start,end,prefinal.r) + smoothstep(clamp(start,0.0,0.2),clamp(end,0.0,0.2),(high.r * 0.2)),0.0,1.0) * COLOR.a;
+}"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_q4ux5"]
+noise_type = 2
+fractal_gain = 4.0
+cellular_distance_function = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yf7ma"]
+height = 128
+seamless = true
+noise = SubResource("FastNoiseLite_q4ux5")
+
+[sub_resource type="Gradient" id="Gradient_56j6r"]
+offsets = PackedFloat32Array(0, 0.13985, 0.35188, 1)
+colors = PackedColorArray(0.615686, 0, 0.615686, 1, 0.0338533, 0.0338533, 0.0338533, 1, 0.286275, 0.0196078, 0.309804, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kfrag"]
+gradient = SubResource("Gradient_56j6r")
+
+[sub_resource type="Gradient" id="Gradient_b3y4d"]
+offsets = PackedFloat32Array(0, 0.541353, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.0105263, 0.0105263, 0.0105263, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jenfi"]
+gradient = SubResource("Gradient_b3y4d")
+
+[sub_resource type="Gradient" id="Gradient_2ggpv"]
+offsets = PackedFloat32Array(0.230075, 0.38797, 0.651128, 0.706767, 0.809023)
+colors = PackedColorArray(1, 1, 1, 1, 0.498039, 0.498039, 0.498039, 1, 0, 0, 0, 1, 0.498039, 0.498039, 0.498039, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_beac4"]
+gradient = SubResource("Gradient_2ggpv")
+
+[sub_resource type="Gradient" id="Gradient_43poj"]
+offsets = PackedFloat32Array(0.0315789, 0.572932, 0.640602)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ipr4i"]
+gradient = SubResource("Gradient_43poj")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6li6c"]
+render_priority = 0
+shader = SubResource("Shader_s65rn")
+shader_parameter/time_offset = 1.905
+shader_parameter/progress = 0.2
+shader_parameter/derive_progress = -1.0
+shader_parameter/ease_progress = 1.0
+shader_parameter/time_scale = 0.06
+shader_parameter/anim_rot_amt = 1.0
+shader_parameter/zoom = 0.75
+shader_parameter/rotate_all = 360.0
+shader_parameter/base_noise = SubResource("NoiseTexture2D_yf7ma")
+shader_parameter/width_gradient_mask = SubResource("GradientTexture1D_ipr4i")
+shader_parameter/length_gradient_mask = SubResource("GradientTexture1D_beac4")
+shader_parameter/highlight = SubResource("GradientTexture1D_jenfi")
+shader_parameter/emission_strength = 1.0
+shader_parameter/mix_strength = 1.0
+shader_parameter/color_lookup = SubResource("GradientTexture1D_kfrag")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rssq8"]
+noise_type = 2
+fractal_gain = 4.0
+cellular_distance_function = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q1wcw"]
+height = 128
+seamless = true
+noise = SubResource("FastNoiseLite_rssq8")
+
+[sub_resource type="Gradient" id="Gradient_m221h"]
+offsets = PackedFloat32Array(0, 0.13985, 0.277273, 1)
+colors = PackedColorArray(0.615686, 0, 0.615686, 1, 0.0338533, 0.0338533, 0.0338533, 1, 0.286275, 0.0196078, 0.309804, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tj7rr"]
+gradient = SubResource("Gradient_m221h")
+
+[sub_resource type="Gradient" id="Gradient_swipe"]
+offsets = PackedFloat32Array(0, 0.541353, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.0105263, 0.0105263, 0.0105263, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vawhd"]
+gradient = SubResource("Gradient_swipe")
+
+[sub_resource type="Gradient" id="Gradient_y4cm8"]
+offsets = PackedFloat32Array(0.230075, 0.38797, 0.651128, 0.706767, 0.809023)
+colors = PackedColorArray(1, 1, 1, 1, 0.498039, 0.498039, 0.498039, 1, 0, 0, 0, 1, 0.498039, 0.498039, 0.498039, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1f2vt"]
+gradient = SubResource("Gradient_y4cm8")
+
+[sub_resource type="Gradient" id="Gradient_u2myx"]
+offsets = PackedFloat32Array(0.0315789, 0.572932, 0.640602)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ij7o7"]
+gradient = SubResource("Gradient_u2myx")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s15eb"]
+render_priority = 0
+shader = ExtResource("2_kupjs")
+shader_parameter/time_offset = 1.375
+shader_parameter/progress = 0.2
+shader_parameter/derive_progress = -1.0
+shader_parameter/ease_progress = 1.0
+shader_parameter/time_scale = 0.06
+shader_parameter/anim_rot_amt = 1.0
+shader_parameter/zoom = 0.75
+shader_parameter/rotate_all = 360.0
+shader_parameter/base_noise = SubResource("NoiseTexture2D_q1wcw")
+shader_parameter/width_gradient_mask = SubResource("GradientTexture1D_ij7o7")
+shader_parameter/length_gradient_mask = SubResource("GradientTexture1D_1f2vt")
+shader_parameter/highlight = SubResource("GradientTexture1D_vawhd")
+shader_parameter/emission_strength = 1.0
+shader_parameter/mix_strength = 1.0
+shader_parameter/color_lookup = SubResource("GradientTexture1D_tj7rr")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ju4po"]
+render_priority = 0
+shader = SubResource("Shader_s65rn")
+shader_parameter/time_offset = 2.175
+shader_parameter/progress = 0.2
+shader_parameter/derive_progress = -1.0
+shader_parameter/ease_progress = 1.0
+shader_parameter/time_scale = 0.06
+shader_parameter/anim_rot_amt = 1.0
+shader_parameter/zoom = 0.75
+shader_parameter/rotate_all = 360.0
+shader_parameter/base_noise = SubResource("NoiseTexture2D_yf7ma")
+shader_parameter/width_gradient_mask = SubResource("GradientTexture1D_ipr4i")
+shader_parameter/length_gradient_mask = SubResource("GradientTexture1D_beac4")
+shader_parameter/highlight = SubResource("GradientTexture1D_jenfi")
+shader_parameter/emission_strength = 1.0
+shader_parameter/mix_strength = 1.0
+shader_parameter/color_lookup = SubResource("GradientTexture1D_kfrag")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uaggg"]
+
+[sub_resource type="Animation" id="Animation_5fwbg"]
+resource_name = "disappear"
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.5, 1, 1.4, 1.4, 1.4, 1, 1, 0.264233, 0.264233, 0.264233)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5yy0a"]
+_data = {
+"disappear": SubResource("Animation_5fwbg")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_huvg6"]
+radius = 5.0
+
+[node name="BlackHole" type="RigidBody3D"]
+collision_layer = 128
+collision_mask = 33
+gravity_scale = 0.5
+script = ExtResource("1_468yb")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.194817, 0, 0, 0, 0.194817, 0, 0, 0, 0.194817, 0, 0, 0)
+sorting_offset = 1.0
+billboard = 1
+texture = ExtResource("1_kos3x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("SphereMesh_iutgi")
+surface_material_override/0 = SubResource("StandardMaterial3D_lr3sr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0pt10")
+}
+autoplay = "pulsing"
+speed_scale = 0.25
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1.06682, 1.58317, 1.73409, -1.18142, -1.28412, 1.89917, 2.02922, -1.57994, 0.194053, 0, 0, -0.0206575)
+material_override = ExtResource("2_8onyj")
+mesh = SubResource("QuadMesh_mhree")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(2.50326, 0.0146257, 0.62052, 0.365663, 2.04867, -1.52342, -0.501547, 1.56662, 1.98639, 0, 0, -0.0206575)
+material_override = SubResource("ShaderMaterial_6li6c")
+mesh = SubResource("QuadMesh_mhree")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(2.26886, -0.949136, 0.776542, -0.427962, -2.14327, -1.36924, 1.14923, 1.07569, -2.04298, 0, 0, -0.0206575)
+material_override = SubResource("ShaderMaterial_s15eb")
+mesh = SubResource("QuadMesh_mhree")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1.20747, -1.50417, 1.71204, -1.50551, 0.928034, 1.87717, -1.71086, -1.87825, -0.44356, 0, 0, -0.0206575)
+material_override = SubResource("ShaderMaterial_ju4po")
+mesh = SubResource("QuadMesh_mhree")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_uaggg")
+
+[node name="FreezeTimer" type="Timer" parent="."]
+
+[node name="DeleteTimer" type="Timer" parent="."]
+
+[node name="DeleteAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5yy0a")
+}
+speed_scale = 4.0
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 128
+collision_mask = 32
+gravity_space_override = 3
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+gravity = 20.04
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_huvg6")
+
+[connection signal="timeout" from="FreezeTimer" to="." method="_on_freeze_timer_timeout"]
+[connection signal="timeout" from="DeleteTimer" to="." method="_on_delete_timer_timeout"]
+[connection signal="animation_finished" from="DeleteAnimation" to="." method="_on_delete_animation_animation_finished"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
