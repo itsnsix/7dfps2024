@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=5 format=3 uid="uid://bpxltf0d280dt"]
+
+[ext_resource type="Script" path="res://Player_Controller/scripts/Weapon_State_Machine/weapon_resource.gd" id="1_6yd8f"]
+[ext_resource type="PackedScene" uid="uid://bqoek483eited" path="res://Player_Controller/Spawnable_Objects/Projectiles_To_Load/black_hole_projectile.tscn" id="1_22xul"]
+[ext_resource type="PackedScene" uid="uid://cvbk5bxenpxey" path="res://Player_Controller/Spawnable_Objects/Weapons/blaster_I.tscn" id="3_1b8ef"]
+[ext_resource type="PackedScene" uid="uid://ciu0xkaw0ioef" path="res://Player_Controller/Spawnable_Objects/SprayProfiles/spray_profile_1.tscn" id="4_51l1v"]
+
+[resource]
+script = ExtResource("1_6yd8f")
+weapon_name = "blasterI"
+pick_up_animation = "Global/blasterI Active"
+shoot_animation = "Global/blasterI Shoot"
+reload_animation = "Global/blasterI Reload"
+change_animation = "Global/blasterI De-Activate"
+drop_animation = "Global/blasterI Drop"
+out_of_ammo_animation = "Global/blasterI OOA"
+melee_animation = "Global/blasterI Melee"
+has_ammo = true
+magazine = 30
+max_ammo = 60
+damage = 10
+melee_damage = 1.0
+auto_fire = false
+fire_range = 100
+can_be_dropped = true
+weapon_drop = ExtResource("3_1b8ef")
+weapon_spray = ExtResource("4_51l1v")
+projectile_to_load = ExtResource("1_22xul")
+incremental_reload = false
