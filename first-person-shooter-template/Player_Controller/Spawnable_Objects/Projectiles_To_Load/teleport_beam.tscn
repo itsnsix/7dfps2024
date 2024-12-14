@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmod4tesk7oia"]
+
+[ext_resource type="Script" path="res://Player_Controller/scripts/Projectiles/TeleportBeam.gd" id="1_tcn0a"]
+[ext_resource type="Shader" path="res://Player_Controller/Spawnable_Objects/Projectiles_To_Load/teleport_beam.gdshader" id="2_p8bws"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y5dq7"]
+render_priority = 0
+shader = ExtResource("2_p8bws")
+
+[node name="TeleportBeam" type="Node3D"]
+script = ExtResource("1_tcn0a")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+material = SubResource("ShaderMaterial_y5dq7")
