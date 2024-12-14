@@ -9,12 +9,13 @@ height = 20.0
 radius = 20.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_saq3o"]
-size = Vector3(0.789062, 0.834106, 1.10156)
+size = Vector3(1.41187, 1.86475, 1.10156)
 
 [node name="MovingEnemy" type="CharacterBody3D" groups=["Enemies", "Target"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_layer = 32
 collision_mask = 2
+collision_priority = 10.0
 script = ExtResource("1_pvhgx")
 
 [node name="Enemy FOV" type="Area3D" parent="."]
@@ -25,7 +26,7 @@ collision_mask = 3
 shape = SubResource("CylinderShape3D_ls7su")
 
 [node name="EnemyHitbox" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.775168, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00451666, 0.43072, 0)
 shape = SubResource("BoxShape3D_saq3o")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
@@ -41,6 +42,10 @@ transform = Transform3D(0.553681, 0, 0, 0, 0.553681, 0, 0, 0, 0.553681, 0, 1.389
 transform = Transform3D(-0.520738, 0, 4.55243e-08, 0, 0.520738, 0, -4.55243e-08, 0, -0.520738, 0, -0.5, 0)
 
 [node name="ShootTimer" type="Timer" parent="."]
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.492045, 0)
+target_position = Vector3(0, -5, 0)
 
 [connection signal="body_entered" from="Enemy FOV" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Enemy FOV" to="." method="_on_area_3d_body_exited"]

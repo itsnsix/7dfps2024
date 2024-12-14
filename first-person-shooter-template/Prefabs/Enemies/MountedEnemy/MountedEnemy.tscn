@@ -21,8 +21,8 @@ corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3hjsp"]
-height = 1.04902
-radius = 0.66749
+height = 1.2257
+radius = 0.636701
 
 [sub_resource type="Animation" id="Animation_ut1ja"]
 length = 0.001
@@ -108,6 +108,7 @@ _data = {
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.408092, 0)
 collision_layer = 32
 collision_mask = 2
+collision_priority = 10.0
 script = ExtResource("1_70fwr")
 
 [node name="FaceDirection" type="Node3D" parent="."]
@@ -171,6 +172,10 @@ shape = SubResource("CylinderShape3D_3hjsp")
 libraries = {
 "": SubResource("AnimationLibrary_3eag3")
 }
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.492045, 0)
+target_position = Vector3(0, -5, 0)
 
 [connection signal="body_entered" from="Enemy FOV" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Enemy FOV" to="." method="_on_area_3d_body_exited"]

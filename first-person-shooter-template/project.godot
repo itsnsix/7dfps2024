@@ -156,6 +156,7 @@ pause={
 3d_physics/layer_5="Rigid Body Projectiles"
 3d_physics/layer_6="Enemys"
 3d_physics/layer_7="Doors"
+3d_physics/layer_8="PlayerProjectiles"
 
 [rendering]
 

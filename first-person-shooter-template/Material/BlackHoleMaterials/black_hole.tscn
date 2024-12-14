@@ -380,9 +380,10 @@ _data = {
 radius = 5.0
 
 [node name="BlackHole" type="RigidBody3D"]
-collision_layer = 128
-collision_mask = 33
+collision_layer = 0
+collision_priority = 10.0
 gravity_scale = 0.5
+max_contacts_reported = 1
 script = ExtResource("1_468yb")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
@@ -392,6 +393,7 @@ billboard = 1
 texture = ExtResource("1_kos3x")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.14415, 0, 0, 0, 1.14415, 0, 0, 0, 1.14415, 0, 0, 0)
 cast_shadow = 0
 mesh = SubResource("SphereMesh_iutgi")
 surface_material_override/0 = SubResource("StandardMaterial3D_lr3sr")
@@ -404,7 +406,6 @@ autoplay = "pulsing"
 speed_scale = 0.25
 
 [node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
 transform = Transform3D(1.06682, 1.58317, 1.73409, -1.18142, -1.28412, 1.89917, 2.02922, -1.57994, 0.194053, 0, 0, -0.0206575)
@@ -444,7 +445,7 @@ libraries = {
 speed_scale = 4.0
 
 [node name="Area3D" type="Area3D" parent="."]
-collision_layer = 128
+collision_layer = 0
 collision_mask = 32
 gravity_space_override = 3
 gravity_point = true

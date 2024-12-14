@@ -18,28 +18,28 @@ uniform float ease_progress : hint_range(-1.0, 1.0, 1.0) = 0.0;
 uniform float time_scale : hint_range(0.0, 8.0, 0.01) = 1.0;
 uniform float anim_rot_amt : hint_range(0.0, 1.0, 0.01) = 1.0;
 // ^^^
-// The shader is setup to rotate the main image as it progresses, 
+// The shader is setup to rotate the main image as it progresses,
 // set this to 0 to disable that behaviour
 group_uniforms;
 
 group_uniforms SHAPE;
 uniform sampler2D base_noise : hint_default_white, filter_linear_mipmap;
-// ^^^ 
-// This is the basis of the main rough looking shape, It's width should be 
+// ^^^
+// This is the basis of the main rough looking shape, It's width should be
 // stretched but that's up to you.
 
 // these should be GradientTexture1Ds
 uniform sampler2D width_gradient_mask : hint_default_transparent;
-// ^^^ 
-// This clips the slashes width, use white for what you want to clip, and 
+// ^^^
+// This clips the slashes width, use white for what you want to clip, and
 // black for what you want to keep.
 uniform sampler2D length_gradient_mask : hint_default_transparent;
-// ^^^ 
-// This clips the slashes "length" and controls how it animates... uh try 
+// ^^^
+// This clips the slashes "length" and controls how it animates... uh try
 // using a gradient that progresses 'white -> black -> white'
 uniform sampler2D highlight : source_color,hint_default_transparent;
-// ^^^ 
-// This will be overlayed ontop of the main shape, it will get masked by 
+// ^^^
+// This will be overlayed ontop of the main shape, it will get masked by
 // LENGTH_GRADIENT_MASK so it animates in sync with the main shape.
 
 uniform float zoom : hint_range(0.0, 2.0, 0.01) = 0.6; // Scales the final image, Inverted (smaller means bigger)
@@ -51,7 +51,7 @@ uniform float emission_strength : hint_range(0.0, 1.0, 0.1) = 1.0;
 // ^^^
 // Makes it glow
 
-uniform float mix_strength : hint_range(0.0, 2.0, 0.01) = 1.0; 
+uniform float mix_strength : hint_range(0.0, 2.0, 0.01) = 1.0;
 // ^^^
 // Controls how COLOR_LOOKUP is applied, less will move it closer to black if
 // COLOR_LOOKUP isn't empty
@@ -110,10 +110,10 @@ float get_progress() {
 	// abs(sin(TIME * time_scale)) [Back and Forth]
 	// mod(TIME * time_scale,1.0) [Over and Over]
 	else {p = progress;}
-	
+
 	if (ease_progress > 0.0) {final = easeOutExpo(p);}
 	else if (ease_progress < 0.0) {final = easeInExpo(p);}
 	else {final = p;}
-	
+
 	return final;
 }
