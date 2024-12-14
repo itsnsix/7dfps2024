@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqoek483eited"]
+
+[ext_resource type="Script" path="res://Player_Controller/scripts/Projectiles/BlackHoleProjectile.gd" id="1_x5c4d"]
+
+[node name="Projectile" type="Node3D"]
+script = ExtResource("1_x5c4d")
