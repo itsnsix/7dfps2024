@@ -58,8 +58,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.66595, 0.687855, -19.5926)
 [node name="SpiderBot" parent="." instance=ExtResource("7_uqqnl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.54899, 0)
 
-[node name="Turret" parent="." instance=ExtResource("8_y2pgg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.73008, 0.408093, 25.6804)
+[node name="SpiderBot2" parent="." instance=ExtResource("7_uqqnl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.9754, 0.602943, 22.6051)
 
 [node name="Turret2" parent="." instance=ExtResource("8_y2pgg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5951, 2.39296, -0.614878)
+
+[node name="Turret3" parent="." instance=ExtResource("8_y2pgg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5903, 2.39296, -0.614878)
