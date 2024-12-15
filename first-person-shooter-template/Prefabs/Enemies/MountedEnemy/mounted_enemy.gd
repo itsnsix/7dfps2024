@@ -15,15 +15,12 @@ func _process(delta: float) -> void:
 		IDLE:
 			idle_animation()
 		WAKEUP:
-			print('waking up')
 			state = ALERT
 			ap.stop()
 		SLEEP:
 			state = IDLE
-			print('sleeping')
 			idle_animation()
 		ALERT:
-			print('alert')
 			stylebox.set('bg_color', alert_bg)
 			panel.add_theme_stylebox_override("panel", stylebox)
 

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxdwvxkvqnhr7"]
+
+[ext_resource type="Script" path="res://Player_Controller/scripts/Projectiles/RocketGloveProjectile.gd" id="1_61084"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eklr3"]
+
+[node name="RocketGlove" type="Node3D"]
+script = ExtResource("1_61084")
+
+[node name="BoostTime" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 33
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.445599, 0, 0, 0, 0.445599, 0, 0, 0, 0.445599, -0.0183802, 0.507617, -0.994951)
+shape = SubResource("BoxShape3D_eklr3")
+
+[connection signal="timeout" from="BoostTime" to="." method="_on_boost_time_timeout"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

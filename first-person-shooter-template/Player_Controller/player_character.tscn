@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=4 uid="uid://oc13h3au02ro"]
+[gd_scene load_steps=99 format=4 uid="uid://oc13h3au02ro"]
 
 [ext_resource type="Script" path="res://Player_Controller/scripts/Player_Character/player_character.gd" id="1_h0t42"]
 [ext_resource type="Script" path="res://Player_Controller/scripts/Player_Character/HUD.gd" id="2_tvwwj"]
@@ -7,8 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://dfwhkyrh42wu4" path="res://Player_Controller/HUD ASSETS/crosshair046.png" id="4_l32wb"]
 [ext_resource type="Script" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_State_Machine.gd" id="5_wuueu"]
 [ext_resource type="Script" path="res://Player_Controller/scripts/Weapon_State_Machine/WeaponSlot.gd" id="6_wj0qi"]
-[ext_resource type="Resource" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_Resources/Railgun.tres" id="8_vdne3"]
+[ext_resource type="Resource" uid="uid://bos6aaigbfnhq" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_Resources/Railgun.tres" id="8_vdne3"]
 [ext_resource type="Resource" uid="uid://bpxltf0d280dt" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_Resources/black_hole.tres" id="9_370lu"]
+[ext_resource type="Resource" uid="uid://di3bcuxgt2jar" path="res://Player_Controller/scripts/Weapon_State_Machine/Weapon_Resources/rocket_glove.tres" id="10_xjw27"]
 [ext_resource type="AnimationLibrary" uid="uid://uybino34n0sj" path="res://Player_Controller/weapon_animation.res" id="13_lmhsg"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_rj3p7"]
@@ -35,6 +36,12 @@ script = ExtResource("6_wj0qi")
 weapon = ExtResource("9_370lu")
 current_ammo = 1000
 reserve_ammo = 1000
+
+[sub_resource type="Resource" id="Resource_urffe"]
+script = ExtResource("6_wj0qi")
+weapon = ExtResource("10_xjw27")
+current_ammo = 0
+reserve_ammo = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0fswt"]
 resource_name = "dark"
@@ -2223,7 +2230,7 @@ current = true
 script = ExtResource("5_wuueu")
 animation_player = NodePath("Weapons_Models/AnimationPlayer")
 melee_hitbox = NodePath("Melee_Hitbox")
-weapon_stack = Array[ExtResource("6_wj0qi")]([SubResource("Resource_4pcyg"), SubResource("Resource_6rp1c")])
+weapon_stack = Array[ExtResource("6_wj0qi")]([SubResource("Resource_4pcyg"), SubResource("Resource_6rp1c"), SubResource("Resource_urffe")])
 
 [node name="Weapons_Models" type="Node3D" parent="Camera/LeanPivot/MainCamera/Weapons_Manager"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.54919, 0)

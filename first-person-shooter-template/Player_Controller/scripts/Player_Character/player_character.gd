@@ -63,6 +63,8 @@ var jump_available: bool = true
 var jump_buffer: bool = false
 var near_door: bool = false
 
+var is_rocket_boosting: bool = false
+
 # Lets the HUD know to update the health
 signal update_health()
 
@@ -222,53 +224,54 @@ func _process(_delta: float) -> void:
 
 func _physics_process(_delta: float) -> void:
 	sprint_replenish(_delta)
-	lean_collision()
-	
-	if crouched and crouch_blocked:
-		if !crouch_collision.is_colliding():
-			crouch_blocked = false
-			if !Input.is_action_pressed("crouch") and !crouch_toggle:
-				crouch()
-				
-	# Add the gravity.
-	var _acceleration
-	if not is_on_floor():
-		_acceleration = acceleration*air_acceleration_modifier
+	if not is_rocket_boosting:
+		lean_collision()
 		
-		if coyote_timer.is_stopped():
-			coyote_timer.start(coyote_time)
-	
-		if velocity.y>0:
-			velocity.y -= jump_gravity * _delta
-		else:
-			velocity.y -= fall_gravity * _delta
-	else:
-		_acceleration = acceleration
-		jump_available = true
-		coyote_timer.stop()
-		_speed = (base_speed / max((float(crouched)*crouch_speed_reduction),1)) * speed_modifier
-		if jump_buffer:
-			jump()
-			jump_buffer = false
-	# Handle Jump.
-	if Input.is_action_just_pressed("ui_accept"):
-		if jump_available:
-			if crouched:
-				crouch()
+		if crouched and crouch_blocked:
+			if !crouch_collision.is_colliding():
+				crouch_blocked = false
+				if !Input.is_action_pressed("crouch") and !crouch_toggle:
+					crouch()
+					
+		# Add the gravity.
+		var _acceleration
+		if not is_on_floor():
+			_acceleration = acceleration*air_acceleration_modifier
+			
+			if coyote_timer.is_stopped():
+				coyote_timer.start(coyote_time)
+		
+			if velocity.y>0:
+				velocity.y -= jump_gravity * _delta
 			else:
-				lean(CENTRE)
-				jump()
+				velocity.y -= fall_gravity * _delta
 		else:
-			jump_buffer = true
-			get_tree().create_timer(jump_buffer_time).timeout.connect(on_jump_buffer_timeout)
+			_acceleration = acceleration
+			jump_available = true
+			coyote_timer.stop()
+			_speed = (base_speed / max((float(crouched)*crouch_speed_reduction),1)) * speed_modifier
+			if jump_buffer:
+				jump()
+				jump_buffer = false
+		# Handle Jump.
+		if Input.is_action_just_pressed("ui_accept"):
+			if jump_available:
+				if crouched:
+					crouch()
+				else:
+					lean(CENTRE)
+					jump()
+			else:
+				jump_buffer = true
+				get_tree().create_timer(jump_buffer_time).timeout.connect(on_jump_buffer_timeout)
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("left", "right", "up", "down")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	velocity.x = move_toward(velocity.x, direction.x * _speed, _acceleration*_delta)
-	velocity.z = move_toward(velocity.z, direction.z * _speed, _acceleration*_delta)
-	Global.player_values.position = global_transform.origin
+		# Get the input direction and handle the movement/deceleration.
+		# As good practice, you should replace UI actions with custom gameplay actions.
+		var input_dir = Input.get_vector("left", "right", "up", "down")
+		var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		velocity.x = move_toward(velocity.x, direction.x * _speed, _acceleration*_delta)
+		velocity.z = move_toward(velocity.z, direction.z * _speed, _acceleration*_delta)
+		Global.player_values.position = global_transform.origin
 	move_and_slide()
 
 func jump()->void:
