@@ -2104,6 +2104,7 @@ unique_name_in_owner = true
 script = ExtResource("2_tvwwj")
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_rgccn")]
+process_mode = 3
 
 [node name="Overlay" type="TextureRect" parent="CanvasLayer"]
 visible = false
