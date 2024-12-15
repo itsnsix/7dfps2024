@@ -43,6 +43,9 @@ func _on_delete_animation_animation_finished(anim_name: StringName) -> void:
 
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
+	if body.get_parent() is RigidBody3D:
+		return
+
 	if body is CharacterBody3D and body.name not in captured_body_names:
 		captured_body_names.append(body.name)
 		var rigid_body = CapturedBody.new()
